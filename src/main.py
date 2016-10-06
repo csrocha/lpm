@@ -43,6 +43,7 @@ def main():
 
             target = publisher.Publisher(v['server'], v['user'], v['password'])
             Message = message.dictMessage[v['parser']]
+
             for dirpath, dirnames, filenames in os.walk(v['source']):
                 for filename in filenames:
                     with open(os.path.join(dirpath,filename)) as msgfile:
