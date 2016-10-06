@@ -69,7 +69,8 @@ class Parse(object):
                             date=row[Parse.DATE],
                             message=row[Parse.MESSAGE],
                             comments=row[Parse.COMMENTS],
-                            keywords=[row[Parse.ERROR_TYPE]]) for row in self.dataframe.iterrows()]
+                            keywords=[row[Parse.ERROR_TYPE]])
+                for _,row in self.dataframe.iterrows()]
 
 
 
