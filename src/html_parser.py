@@ -60,7 +60,6 @@ class Parse(object):
 
     def entries(self):
         # populating the feed table
-
         self._get_feed_table()
 
         # creating the Entry List

@@ -1,9 +1,9 @@
 hacker-ptp:
-    user: hacker
-    password: hackaton
-    server: http://server
+    user:
+    password:
+    server: http://10.199.208.34:8080/errors
     source: test/emails/*.htm*
-    parser: ptp
+    parser: foo
     defaults:
         keywords: test
     
