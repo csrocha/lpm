@@ -2,7 +2,7 @@ hacker-ptp:
     user: hacker
     password: hackaton
     server: http://server
-    source: ../test/emails/
+    source: test/emails/*.htm*
     parser: foo
     defaults:
         keywords: test

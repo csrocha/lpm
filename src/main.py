@@ -1,34 +1,20 @@
-"""
-Usage:
-
-    lpm [config] {dir}
-
-    Read files in directory, process and load them into system.
-
-    config file in YAML:
-
-        default:
-            server: http://restServer
-            source: file://test/emails
-            user: hackaton
-            password: jpmorgan
-            system: ptp
-
-"""
 import argparse
 import yaml
 import publisher
 import message
-import os
-import os.path
 import logging
+import glob
 
 logging.basicConfig(level=logging.INFO)
+
 
 def main():
     parser = argparse.ArgumentParser(description='.')
     parser.add_argument('config', type=argparse.FileType('r'), nargs='?',
                         help='Config file in YAML')
+    parser.add_argument('--no-publish', dest='publish', action='store_false',
+                        help='No publish the entries')
+    parser.set_defaults(publish=True)
 
     args = parser.parse_args()
     configfile = args.config
@@ -44,11 +30,15 @@ def main():
             target = publisher.Publisher(v['server'], v['user'], v['password'])
             Message = message.dictMessage[v['parser']]
 
-            for dirpath, dirnames, filenames in os.walk(v['source']):
-                for filename in filenames:
-                    with open(os.path.join(dirpath,filename)) as msgfile:
-                        msg = Message(msgfile)
+            for filename in glob.iglob(v['source']):
+                logging.info("Reading file %s.", filename)
+                with open(filename) as msgfile:
+                    msg = Message(msgfile)
+                    if args.publish:
                         target.pushEntries(msg.entries())
+                    else:
+                        for e in msg.entries():
+                            logging.info("%s", e)
 
     else:
         parser.print_help()
