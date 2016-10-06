@@ -1,5 +1,6 @@
 from entry import Entry
 from html_parser import Parse
+import logging
 
 class Message():
     def __init__(self, istream=None, system=None):
@@ -17,7 +18,8 @@ class Message():
         if self._entries is None:
             self._istream.seek(0)
             self.parse()
-        return self._entries
+        logging.info("Entries: %s", len(self._entries) if self._entries else 0)
+        return self._entries or []
 
 
 class FooMessage(Message):
@@ -49,7 +51,7 @@ class PTPMessage(Message):
         system = self._system
 
         parser = Parse('\n'.join(istream.readlines()))
-        return parser.entries()
+        return parser.entries() or []
 
 
 class AthenaMessage(Message):

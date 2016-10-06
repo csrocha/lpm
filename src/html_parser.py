@@ -1,6 +1,7 @@
 import bs4
 import pandas
 import entry
+import logging
 
 
 class Parse(object):
@@ -11,7 +12,9 @@ class Parse(object):
     MESSAGE             = 'Message'
     COMMENTS            = 'Comments'
 
-    def __init__(self, html):
+    def __init__(self, content):
+        logging.debug(content)
+
         self.parse = bs4.BeautifulSoup(content, features="html.parser")
         self.dataframe = pandas.DataFrame(columns=[Parse.SOURCE_SYSTEM,
                                                    Parse.FUNCTION,
