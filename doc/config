@@ -1,9 +1,9 @@
 hacker-ptp:
-	user: hacker
-	password: hackaton
-	server: http://server
-	source: file://test/emails/
-	parser: ptp
-	defaults:
-		keywords: test
-
+    user: hacker
+    password: hackaton
+    server: http://server
+    source: ../test/emails/
+    parser: foo
+    defaults:
+        keywords: test
+    
