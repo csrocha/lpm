@@ -1,6 +1,6 @@
 import json
 import requests
-
+import logging
 
 class Publisher:
     def __init__(self, url, user, password):
@@ -10,14 +10,16 @@ class Publisher:
 
     def pushEntry(self, entry):
         _json = json.dumps({
-            'sysmtem': entry._system,
-            'function': entry._function or '',
-            'date': entry._date.strftime("%a %b %d %H:%M:%S %Z %Y"),
-            'message': entry._message or '',
-            'comments': entry._comments or '',
-            'data': json.dumps(entry._data),
+            'sysmtem': entry.system,
+            'function': entry.function or '',
+            'date': entry.date.strftime("%a %b %d %H:%M:%S %Z %Y"),
+            'message': entry.message or '',
+            'comments': entry.comments or '',
+            'data': json.dumps(entry.data),
             'keywords': json.dumps(entry.keywords),
         })
+
+        logging.info("Publishing: %s", entry)
 
         response = requests.post(
             self._url,

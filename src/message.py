@@ -1,11 +1,13 @@
+from entry import Entry
+
 class Message():
     def __init__(self, istream=None, system=None):
-        assert (system is not None, 'Abstract class!')
+        assert system is not None, 'Abstract class!'
         self._istream = istream
         self._system = system
         self._entries = None
         if istream:
-            self.parse(istream)
+            self.parse()
 
     def parse(self):
         raise NotImplemented
@@ -13,13 +15,33 @@ class Message():
     def entries(self):
         if self._entries is None:
             self._istream.seek(0)
-            self.parse(self._istream)
+            self.parse()
         return self._entries
+
+
+class FooMessage(Message):
+    def __init__(self, istream=None, system='foo'):
+        Message.__init__(self, istream, system)
+
+    def parse(self):
+        istream = self._istream
+        system = self._system
+
+        self._entries = [
+            Entry(
+                system=self._system,
+                function='dummy',
+            ),
+            Entry(
+                system=self._system,
+                function='dummy',
+            ),
+        ]
 
 
 class PTPMessage(Message):
     def __init__(self, istream=None, system='ptp'):
-        super(PTPMessage, self).__init__(istream, system)
+        Message.__init__(self, istream, system)
 
     def parse(self):
         istream = self._istream
@@ -31,7 +53,7 @@ class PTPMessage(Message):
 
 class AthenaMessage(Message):
     def __init__(self, istream=None, system='athena'):
-        super(PTPMessage, self).__init__(istream, system)
+        Message.__init__(self, istream, system)
 
     def parse(self):
         istream = self._istream
@@ -42,6 +64,7 @@ class AthenaMessage(Message):
 
 
 dictMessage = {
+    'foo': FooMessage,
     'ptp': PTPMessage,
     'athena': AthenaMessage,
 }
