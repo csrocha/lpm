@@ -1,4 +1,5 @@
 from entry import Entry
+from html_parser import Parse
 
 class Message():
     def __init__(self, istream=None, system=None):
@@ -47,8 +48,8 @@ class PTPMessage(Message):
         istream = self._istream
         system = self._system
 
-        # TODO: Do the parsing.
-        raise NotImplemented
+        parser = Parse('\n'.join(istream.readlines()))
+        return parser.entries()
 
 
 class AthenaMessage(Message):

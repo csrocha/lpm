@@ -5,6 +5,7 @@ import message
 import logging
 import glob
 
+
 logging.basicConfig(level=logging.INFO)
 
 
